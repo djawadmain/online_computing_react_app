@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculate Fibonacci Number</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="w-full h-full fixed flex flex-col items-center justify-center bg-sky-800">
+
+<style>
+    .hide_scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide_scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    @keyframes spin {
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotateY(360deg);
+        }
+    }
+
+    .animate_rotate_full_y {
+        animation: spin 2s linear infinite;
+    }
+
+    #result {
+        height: 125%;
+        width: 110%;
+    }
+
+</style>
+
+<div class="flex flex-col gap-4 max-w-full items-center justify-center p-4 rounded-xl border-2 border-gray-200 relative">
+    <div id="result" class="absolute bg-gray-100 z-20 rounded-lg overflow-y-auto h-full p-2">
+        <button id="close_result" class="p-2.5 mb-1.5 bg-gray-700 text-gray-200 rounded-lg" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                 stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+
+        </button>
+        <span class="break-words text-xs" id="result_number">3212345676879875616909873212345676879875613212345676879875616909876542454657321234567687987561690987654245465765424321234567687987561690987654245465732123456768798756169098765424546576542432123456768798756169098765424546573212345676879875616909876542454657654243212345676879875616909876542454657321234567687987561690987654245465765424321234567687987561690987654245465732123456768798756169098765424546576542432123456768798756169098765424546573212345676879875616909876542454657654243212345676879875616909876542454657321234567687987561690987654245465765424690987654245465732123456768798756169098765424546576542454657</span>
+    </div>
+    <div id="generate_loader" class="absolute left-1/2 -translate-x-1/2 -top-12 animate-pulse hidden">
+        <div class="animate_rotate_full_y">
+            <span class="text-[10rem]">🧠</span>
+        </div>
+    </div>
+    <div class="flex flex-row gap-4 max-w-full">
+        <div class="w-[10rem] h-[10rem] text-[6.4rem] hide_scrollbar overflow-y-auto backdrop-blur-sm flex flex-col snap-y items-center bg-gray-100 bg-opacity-[.15] rounded-xl px-4">
+            <span class="text-semibold snap-center">0</span>
+            <span class="text-semibold snap-center">1</span>
+            <span class="text-semibold snap-center">2</span>
+            <span class="text-semibold snap-center">3</span>
+            <span class="text-semibold snap-center">4</span>
+            <span class="text-semibold snap-center">5</span>
+            <span class="text-semibold snap-center">6</span>
+            <span class="text-semibold snap-center">7</span>
+            <span class="text-semibold snap-center">8</span>
+            <span class="text-semibold snap-center">9</span>
+        </div>
+        <div class="w-[10rem] h-[10rem] text-[6.4rem] hide_scrollbar overflow-y-auto backdrop-blur-sm flex flex-col snap-y items-center bg-gray-100 bg-opacity-[.15] rounded-xl px-4">
+            <span class="text-semibold snap-center">0</span>
+            <span class="text-semibold snap-center">1</span>
+            <span class="text-semibold snap-center">2</span>
+            <span class="text-semibold snap-center">3</span>
+            <span class="text-semibold snap-center">4</span>
+            <span class="text-semibold snap-center">5</span>
+            <span class="text-semibold snap-center">6</span>
+            <span class="text-semibold snap-center">7</span>
+            <span class="text-semibold snap-center">8</span>
+            <span class="text-semibold snap-center">9</span>
+        </div>
+    </div>
+    <div>
+        <button type="button" id="generate_button" class="bg-red-800 p-2.5 rounded text-sm font-semibold text-gray-200">
+            Generate
+        </button>
+
+    </div>
+    <div class="relative">
+        <div id="tongue"
+             class="absolute z-10 top-0 flex flex-col items-center justify-center p-2 -translate-x-1/2 left-1/2 w-12 bg-pink-400 rounded-b-xl h-16 hidden">
+            <div class="w-0.5 h-full bg-gray-800/50 rounded"></div>
+        </div>
+        <div id="blur_lip" class="absolute w-full h-full backdrop-blur-sm hidden"></div>
+        <span>
+            this spa site for generate fib(n) you want
+        </span>
+    </div>
+</div>
+<div>
+
+</div>
+
+
+<script>
+
+    function remove_class_from_element(dom, class_name) {
+        dom.classList.contains(class_name) ? dom.classList.remove(class_name) : null
+    }
+
+    const tailwind_load = () => {
+        tailwind.config = {};
+    }
+
+    const generate_button = document.querySelector('#generate_button');
+    const generate_loader = document.querySelector('#generate_loader');
+    const tongue_element = document.querySelector('#tongue');
+    const blur_lip_element = document.querySelector('#blur_lip');
+    const result_box = document.querySelector('#result');
+    const result_number_element = document.querySelector('#result_number');
+    const close_result_button = document.querySelector('#close_result');
+
+    generate_button.addEventListener('click', () => {
+
+        tongue_element.classList.add('hidden');
+        blur_lip_element.classList.add('hidden');
+
+        remove_class_from_element(generate_loader, 'hidden');
+
+        setTimeout(() => {
+
+            generate_loader.classList.add('hidden');
+
+            remove_class_from_element(tongue_element, 'hidden');
+            remove_class_from_element(blur_lip_element, 'hidden');
+
+            // result_number_element.innerText = '14355555555555555434444444';
+
+        }, 2000)
+    });
+
+    tongue_element.addEventListener('click', () => {
+
+        remove_class_from_element(result_box, 'hidden');
+    })
+
+    close_result_button.addEventListener('click', () => {
+
+        result_box.classList.add('hidden');
+    })
+
+
+</script>
+<script src="https://cdn.tailwindcss.com" onload="tailwind_load()"></script>
+</body>
+</html>
