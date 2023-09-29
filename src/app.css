@@ -1,0 +1,24 @@
+.hide_scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.hide_scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotateY(360deg);
+    }
+}
+
+.animate_rotate_full_y {
+    animation: spin 2s linear infinite;
+}
+
+#result {
+    height: 125%;
+    width: 110%;
+}
